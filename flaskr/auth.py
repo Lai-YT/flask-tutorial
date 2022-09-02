@@ -1,6 +1,6 @@
 import functools
 from sqlite3 import IntegrityError
-from typing import Callable
+from typing import Callable, Optional
 
 from flask import (Blueprint, flash, g, redirect, render_template, request,
                    session, url_for)
@@ -60,9 +60,9 @@ def login():
     return render_template('auth/login.html')
 
 
-@bp.before_app_first_request
+@bp.before_app_request
 def load_logged_in_user():
-    user_id = session.get('user_id')
+    user_id: Optional[int] = session.get('user_id')
     if user_id is None:
         g.user = None
     else:
