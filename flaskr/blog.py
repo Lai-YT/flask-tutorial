@@ -1,3 +1,5 @@
+from typing import Optional, Tuple
+
 from flask import (Blueprint, flash, g, redirect, render_template, request,
                    url_for)
 from werkzeug.exceptions import abort
@@ -46,7 +48,7 @@ def create():
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
 @login_required
 def update(id: int):
-    post = get_post_by_id(id)
+    post = _get_post_by_id(id)
 
     if request.method == 'POST':
         title = request.form['title']
@@ -69,14 +71,14 @@ def update(id: int):
 @bp.route('/<int:id>/delete', methods=('POST',))
 @login_required
 def delete(id: int):
-    get_post_by_id(id)
+    _get_post_by_id(id)
     with get_db() as db:
         db.execute('DELETE FROM post WHERE id = ?', (id,))
     return redirect(url_for('blog.index'))
 
 
-def get_post_by_id(id: int, check_author=True):
-    post = get_db().execute('''
+def _get_post_by_id(id: int, check_author=True):
+    post: Optional[Tuple] = get_db().execute('''
         SELECT p.id, title, body, created, author_id, username
             FROM post p JOIN user u ON p.author_id = u.id
             WHERE p.id = ?
