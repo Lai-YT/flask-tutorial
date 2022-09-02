@@ -1,4 +1,4 @@
-from typing import Optional, Tuple
+from typing import TYPE_CHECKING, Optional
 
 from flask import (Blueprint, flash, g, redirect, render_template, request,
                    url_for)
@@ -6,6 +6,9 @@ from werkzeug.exceptions import abort
 
 from flaskr.auth import login_required
 from flaskr.db import get_db
+
+if TYPE_CHECKING:
+    from sqlite3 import Row
 
 bp = Blueprint('blog', __name__)
 
@@ -78,7 +81,7 @@ def delete(id: int):
 
 
 def _get_post_by_id(id: int, check_author=True):
-    post: Optional[Tuple] = get_db().execute('''
+    post: Optional['Row'] = get_db().execute('''
         SELECT p.id, title, body, created, author_id, username
             FROM post p JOIN user u ON p.author_id = u.id
             WHERE p.id = ?
