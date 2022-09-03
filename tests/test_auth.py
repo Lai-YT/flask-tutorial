@@ -86,3 +86,12 @@ def test_login_validate_input(
         auth: 'AuthActions', username: str, password: str, message: str):
     response = auth.login(username, password)
     assert message in response.data
+
+
+def test_user_id_removed_from_session_after_logout(client: 'FlaskClient', auth: 'AuthActions'):
+    auth.login('test', 'test')
+
+    with client:
+        auth.logout()
+
+        assert 'user_id' not in session
