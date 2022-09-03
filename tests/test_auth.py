@@ -9,7 +9,7 @@ from flaskr.db import get_db
 if TYPE_CHECKING:
     from flask import Flask
     from flask.testing import FlaskClient
-    from tests.conftest import AuthActions
+    from conftest import AuthActions
 
 
 def test_register_page_render_successfully(client: 'FlaskClient'):
