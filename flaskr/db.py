@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 import click
 from flask import current_app, g
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from sqlite3 import Connection
     from flask import Flask
 

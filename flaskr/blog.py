@@ -7,7 +7,7 @@ from werkzeug.exceptions import abort
 from flaskr.auth import login_required
 from flaskr.db import get_db
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from sqlite3 import Row
 
 bp = Blueprint('blog', __name__)
