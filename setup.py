@@ -8,4 +8,5 @@ setup(
     install_requires=[
         'flask',
     ],
+    license='BSD-3-Clause',
 )
